@@ -27,9 +27,19 @@ def getSparseMatrix(file, ifSquare):
             except:
                 helpin[y] = 1
 
+    n = max(max(np.array(row)), max(np.array(col))) + 1 #compensation
+
+    if ifSquare:
+        for x in xrange(n-1):
+            row.append(x)
+            col.append(x)
+            try:
+                helpout[x] += 1
+            except:
+                helpout[x] = 1
     row = np.array(row)
     col = np.array(col)
-    n = max(max(row),max(col)) + 1 #compensation
+
     if ifSquare:
         for x in row:
             weight.append(1./helpout[x])
@@ -41,8 +51,8 @@ def getSparseMatrix(file, ifSquare):
         m = coo_matrix((weight, (row, col)), shape=(n, n))# reshape here, n by n
     else:
         m = coo_matrix((weight, (row, col)))
-    print m.shape
-    print m.nnz
+    #print m.shape
+    #print m.nnz
     return m
 
 def getDistro(file):

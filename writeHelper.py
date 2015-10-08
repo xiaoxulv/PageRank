@@ -19,7 +19,7 @@ def writeNST(indri, topic, tspr, file):
     with open(file,'w') as nst:
         for (user,query), value in indri.iteritems():
             doc = value[0]
-            score = tspr[topic[(user,query)]]
+            score = tspr[topic[(user,query)]][doc]
             rank = np.argsort(np.argsort(score)[::-1])+1 # rank starts with 1
             tupleList = zip(doc, rank, score)
             tupleList = sorted(tupleList, key = lambda t : t[1])
@@ -48,7 +48,7 @@ def writeWST(indri, topic, tspr, file):
     with open(file, 'w') as wst:
         for (user,query),value in indri.iteritems():
             doc = value[0]
-            score = tspr[topic[(user,query)]]
+            score = tspr[topic[(user,query)]][doc]
             relevance = np.array(value[1])
             weightSum = weight*score + (1-weight)*relevance
             rank = np.argsort(np.argsort(weightSum))[::-1]+1
@@ -76,7 +76,7 @@ def writeCMT(indri, topic, tspr, file):
     with open(file,'w') as cmt:
         for (user,query),value in indri.iteritems():
             doc = value[0]
-            score = tspr[topic[(user,query)]]
+            score = tspr[topic[(user,query)]][doc]
             relevance = np.array(value[1])
             custom = util.custom(score, relevance)
             rank = np.argsort(np.argsort(custom))[::-1]+1

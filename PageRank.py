@@ -27,7 +27,7 @@ def pagerank(tran, alpha):
         rank = newRank * 1. # like a deep copy avoid same reference
         newRank = (1-alpha)*tran.transpose()*rank + alpha*p0
         iter += 1
-    print iter
+    #print iter
     return newRank
 
 

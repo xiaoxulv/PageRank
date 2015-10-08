@@ -15,7 +15,7 @@ m = readHelper.getSparseMatrix('transition.txt',True)
 globalPR = PageRank.pagerank(m, 0.1)
 # out-line link injection for topic sensitive PageRank
 topic = readHelper.getSparseMatrix('doc-topics.txt', False).transpose()
-tspr = PageRank.topicSensitivePageRank(m, topic, 0.5, 0.4)
+tspr = PageRank.topicSensitivePageRank(m, topic, 0.25, 0.65)
 # query topic sensitive PageRank
 queryTopic, queryDistr = readHelper.getDistro('query-topic-distro.txt')
 queryTopicPR = PageRank.OnlineTopicSensitivePR(tspr,queryDistr)
