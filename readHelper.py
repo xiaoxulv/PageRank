@@ -2,13 +2,15 @@ __author__ = 'Ariel'
 
 import numpy as np
 from scipy.sparse import coo_matrix
+from os import listdir
+
 # get sparse matrix from input file
 def getSparseMatrix(file, ifSquare):
     row = []
     col = []
     weight = []
     helpout = {} # for out degree count, row perspective
-    helpin = {}
+    helpin = {} # for in degree count, column perspective
     with open(file, 'r') as tr:
         for line in tr:
             p = line.split()
@@ -44,14 +46,30 @@ def getSparseMatrix(file, ifSquare):
     return m
 
 def getDistro(file):
-    res = {} # (user,query) as key and list of topic distribution as value
+    res = {} # (user,query) as key and index(of distribution matrix) as value
     distr = []
     with open(file, 'r') as dis:
+        iter = 0
         for line in dis:
             l = line.replace(":", " ").split()
             cur_list = [float(l[x]) for x in range(len(l)) if x%2 != 0 and x != 1]
-            res[(int(l[0]),int(l[1]))] = cur_list
             distr.append(cur_list)
-
+            res[(int(l[0]),int(l[1]))] = iter
+            iter += 1
     distr = np.array(distr)
     return res, distr
+
+def getIndri(directory):
+    res = {} # (user, query) as key and [docID, score] in list as value
+    files = [f for f in listdir(directory)]
+    for f in files:
+        x = f.replace(".results.txt", "").split("-")
+        with open(directory+f, 'r') as indis:
+            doc = []
+            score = []
+            for line in indis:
+                l = line.split()
+                doc.append(int(l[2])-1)# starts with 0
+                score.append(float(l[4]))
+        res[(int(x[0]),int(x[1]))] = [doc, score]
+    return res

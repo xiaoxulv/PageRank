@@ -30,6 +30,7 @@ def pagerank(tran, alpha):
     print iter
     return newRank
 
+
 def topicSensitivePageRank(tran, topic, alpha, beta):
     # Initialization
     res = np.zeros([topic.shape[0], tran.shape[0]])
@@ -56,32 +57,7 @@ def topicSensitivePageRank(tran, topic, alpha, beta):
 
     return res
 
+
 def OnlineTopicSensitivePR(rt, distro):
     return distro.dot(rt)
 
-
-
-
-
-
-
-
-# for tuple and dictionary
-# bugs here not fixed
-# def pagerank(tranDict, n, alpha):
-#     # Initialization
-#     rank = np.zeros(n).transpose()
-#     newRank = np.random.dirichlet(np.ones(n), size=1).transpose()
-#     p0 = (np.ones(n)/n).reshape((rank.shape[0], 1))
-#
-#     # Iteration
-#     iter = 0
-#     while not ifConverged(rank, newRank):
-#         print (iter)
-#         rank = newRank * 1. # like a deep copy
-#         for key in tranDict.keys():
-#             newRank[key] = (1-alpha)*np.sum(rank[tranDict[key]])
-#         newRank += (alpha*p0)
-#         iter += 1
-#
-#     return newRank
