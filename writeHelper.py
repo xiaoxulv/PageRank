@@ -28,8 +28,7 @@ def writeNST(indri, topic, tspr, file):
 
         return
 
-def writeWSG(indri, globalPR, file):
-    weight = 0.01
+def writeWSG(indri, globalPR, file, weight):
     with open(file,'w') as wsg:
         for (user,query),value in indri.iteritems():
             doc = value[0]
@@ -43,8 +42,7 @@ def writeWSG(indri, globalPR, file):
                 wsg.write('%d-%d Q0 %d %d %f run-1\n'% (user, query, tu[0]+1, tu[1], tu[2]))
     return
 
-def writeWST(indri, topic, tspr, file):
-    weight = 0.01
+def writeWST(indri, topic, tspr, file, weight):
     with open(file, 'w') as wst:
         for (user,query),value in indri.iteritems():
             doc = value[0]
@@ -84,4 +82,12 @@ def writeCMT(indri, topic, tspr, file):
             tupleList = sorted(tupleList, key = lambda t : t[1])
             for tu in tupleList:
                 cmt.write('%d-%d Q0 %d %d %f run-1\n'% (user, query, tu[0]+1, tu[1], tu[2]))
+    return
+
+def writeOutput(pr, file):
+    with open(file ,'w') as f:
+        iter = 1
+        for x in pr:
+            f.write('%d %f\n'% (iter,x))
+            iter += 1
     return

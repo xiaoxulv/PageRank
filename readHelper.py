@@ -26,7 +26,6 @@ def getSparseMatrix(file, ifSquare):
                 helpin[y] += 1
             except:
                 helpin[y] = 1
-
     n = max(max(np.array(row)), max(np.array(col))) + 1 #compensation
 
     if ifSquare:
@@ -39,7 +38,6 @@ def getSparseMatrix(file, ifSquare):
                 helpout[x] = 1
     row = np.array(row)
     col = np.array(col)
-
     if ifSquare:
         for x in row:
             weight.append(1./helpout[x])
@@ -51,13 +49,12 @@ def getSparseMatrix(file, ifSquare):
         m = coo_matrix((weight, (row, col)), shape=(n, n))# reshape here, n by n
     else:
         m = coo_matrix((weight, (row, col)))
-    #print m.shape
-    #print m.nnz
+
     return m
 
 def getDistro(file):
     res = {} # (user,query) as key and index(of distribution matrix) as value
-    distr = []
+    distr = [] # distribution matrix
     with open(file, 'r') as dis:
         iter = 0
         for line in dis:
